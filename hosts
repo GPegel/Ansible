@@ -1,0 +1,7 @@
+[dev_servers]
+centos-ac01
+centos-ac02
+
+[www_servers]
+centos-ac01
+centos-ac02

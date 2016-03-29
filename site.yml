@@ -1,0 +1,15 @@
+---
+- hosts: dev_servers
+  user: root
+  sudo: true
+  roles:
+  - java
+  - memcached
+  - htop
+
+- hosts: www_servers
+  user: root
+  sudo: true
+  roles:
+  - nginx
+  - htop

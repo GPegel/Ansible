@@ -1,0 +1,6 @@
+- name: Install Java JDK
+  yum:
+    name: "java-1.7.0-openjdk-headless.x86_64"
+    state: present
+  tags:
+    - Java_JDK
