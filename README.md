@@ -1,5 +1,5 @@
 # Ansible
-Ansible
+How to use Ansible?
 
 1. Install Ansible: yum install -y ansible
 2. ssh-copy-id user@hostname.example.com
