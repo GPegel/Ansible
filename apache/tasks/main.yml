@@ -12,6 +12,11 @@
   tags:
     - Apache
 
+- name: Enable Apache WEB Server
+  service:
+    name: httpd
+    enabled: yes
+    
 - name: Apache | get iptables rules
   shell: iptables -L
   register: iptablesrules
