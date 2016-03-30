@@ -6,10 +6,11 @@
   - java
   - memcached
   - htop
+  - nginx
 
 - hosts: www_servers
   user: root
   sudo: true
   roles:
-  - nginx
   - htop
+  - apache

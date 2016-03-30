@@ -1,7 +1,13 @@
+- name: Install EPEL
+  yum:
+    name: "epel-release"
+    state: present
+  tags:
+    - htop EPEL
+
 - name: Install hTop
   yum:
     name: "htop"
     state: present
   tags:
     - htop
-

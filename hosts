@@ -1,3 +1,8 @@
+[all_servers]
+centos-ac01
+centos-ac02
+centos-ac03
+
 [dev_servers]
 centos-ac01
 centos-ac02

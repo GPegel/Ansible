@@ -1,0 +1,39 @@
+- name: Install Apache WEB Server
+  yum:
+    name: "httpd"
+    state: present
+  tags:
+    - Apache
+
+- name: Start Apache WEB Server
+  service:
+    name: httpd
+    state: restarted
+  tags:
+    - Apache
+
+- name: Apache | get iptables rules
+  shell: iptables -L
+  register: iptablesrules
+  always_run: yes
+  sudo: true
+
+- name: Apache | add apache iptable rule port 80
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport http -j ACCEPT -m comment --comment "Apache 80"
+  sudo: true
+  when: iptablesrules.stdout.find("Apache 80") == -1
+
+- name: Apache | add apache iptable rule port 443
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport https -j ACCEPT -m comment --comment "Apache 443"
+  sudo: true
+  when: iptablesrules.stdout.find("Apache 443") == -1
+
+- name: save iptables
+  command: iptables-save
+  sudo: true
+
+- name: restart iptables
+  service:
+    name: firewalld
+    state: restarted
+  sudo: true
