@@ -9,7 +9,7 @@
   register: iptablesrules
   always_run: yes
 
-- name: Add ssh iptables rule
+- name: Add SSH iptables rule
   command: /sbin/iptables -A INPUT -p tcp --dport 22 -j ACCEPT -m comment --comment "SSH"
   when: iptablesrules.stdout.find("SSH") == -1
 
@@ -20,6 +20,18 @@
 - name: Add SSL iptables rule
   command: /sbin/iptables -I INPUT -p tcp --dport 443 -j ACCEPT -m comment --comment "SSL"
   when: iptablesrules.stdout.find("SSL") == -1
+
+- name: Add FTP Port iptables rule
+  command: /sbin/iptables -I INPUT -p tcp --dport 21 -j ACCEPT -m comment --comment "FTP"
+  when: iptablesrules.stdout.find("FTP") == -1
+
+- name: Add FTP Passive Min_Port iptables rule
+  command: /sbin/iptables -I INPUT -p tcp --dport 12000 -j ACCEPT -m comment --comment "FTP_MIN_PORT"
+  when: iptablesrules.stdout.find("FTP_MIN_PORT") == -1
+
+- name: Add FTP Passive Max_Port iptables rule
+  command: /sbin/iptables -I INPUT -p tcp --dport 12100 -j ACCEPT -m comment --comment "FTP_MAX_PORT"
+  when: iptablesrules.stdout.find("FTP_MAX_PORT") == -1
 
 - name: Add local interface iptables rule
   command: /sbin/iptables -I INPUT -i lo -j ACCEPT -m comment --comment "Local"

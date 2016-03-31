@@ -1,0 +1,27 @@
+- name: Install VSFTPD
+  yum:
+    name: "vsftpd"
+    state: latest
+  tags:
+    - vsftpd
+
+- name: Start FTP Server
+  service:
+    name: vsftpd
+    state: restarted
+  tags:
+    - vsftpd
+
+- name: Copy vsftpd.conf to the server
+  copy: src=vsftpd.conf dest=/etc/vsftpd/vsftpd.conf
+  notify:
+    - reload vsftpd
+  tags:
+    - vsftpd
+
+- name: Add FTP user
+  user:
+    name: johnd
+    comment: "John Doe"
+    uid: 1040
+    group: ftp
