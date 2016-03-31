@@ -1,0 +1,37 @@
+---
+- name: Install iptables
+  yum: 
+    name: iptables
+    state: latest
+
+- name: Get iptables rules
+  shell: /sbin/iptables -L
+  register: iptablesrules
+  always_run: yes
+
+- name: Add ssh iptables rule
+  command: /sbin/iptables -A INPUT -p tcp --dport 22 -j ACCEPT -m comment --comment "SSH"
+  when: iptablesrules.stdout.find("SSH") == -1
+
+- name: Add HTTP iptables rule
+  command: /sbin/iptables -I INPUT -p tcp --dport 80 -j ACCEPT -m comment --comment "HTTP"
+  when: iptablesrules.stdout.find("HTTP") == -1
+
+- name: Add SSL iptables rule
+  command: /sbin/iptables -I INPUT -p tcp --dport 443 -j ACCEPT -m comment --comment "SSL"
+  when: iptablesrules.stdout.find("SSL") == -1
+
+- name: Add local interface iptables rule
+  command: /sbin/iptables -I INPUT -i lo -j ACCEPT -m comment --comment "Local"
+  when: iptablesrules.stdout.find("Local") == -1
+
+- name: Add socket.io iptables rule
+  command: /sbin/iptables -I INPUT -p tcp --dport 4000 -j ACCEPT -m comment --comment "SocketIO"
+  when: iptablesrules.stdout.find("SocketIO") == -1
+
+- name: Add default iptables policy
+  command: /sbin/iptables -P INPUT DROP
+
+- name: Save iptables
+  shell: /sbin/iptables-save > /etc/iptables/rules.v4
+  sudo: true
