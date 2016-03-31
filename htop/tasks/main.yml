@@ -8,6 +8,6 @@
 - name: Install hTop
   yum:
     name: "htop"
-    state: present
+    state: latest
   tags:
     - htop
