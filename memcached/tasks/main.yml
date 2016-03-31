@@ -1,6 +1,6 @@
 - name: Install MemCache
   yum:
     name: "memcached"
-    state: present
+    state: latest
   tags:
     - memcache
